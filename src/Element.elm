@@ -217,6 +217,8 @@ import Html.Attributes
 import Internal.Flag as Flag exposing (Flag)
 import Internal.Model as Internal
 import Internal.Style exposing (classes)
+import Hex
+import Murmur3
 
 
 {-| -}
@@ -357,15 +359,32 @@ htmlAttribute =
 
 
 {-| -}
-htmlStyleAttribute : String -> List (String, String) -> Attribute msg
-htmlStyleAttribute className styles =
-    styles
+htmlStyleAttribute : List (String, String) -> Attribute msg
+htmlStyleAttribute styles =
+    let
+        sortedStyles =
+            styles
+                |> List.sortBy Tuple.first
+
+
+        className =
+            sortedStyles
+                |> List.foldl
+                    (\(name, val) s ->
+                        s ++ name ++ ":" ++ val
+                    )
+                    ""
+                |> Murmur3.hashString 20030119
+                |> Hex.toString
+                |> String.cons '_'
+    in
+    sortedStyles
         |> List.map
             (\(name, val) ->
                 Internal.Property name val
             )
         |> Internal.Style className
-        |> Internal.StyleClass (Flag.flag 125)
+        |> Internal.StyleClass (Flag.flag 0)
 
 
 {-| -}

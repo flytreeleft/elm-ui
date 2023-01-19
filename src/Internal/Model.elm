@@ -2669,7 +2669,7 @@ renderStyleRule : OptionRecord -> Style -> Maybe PseudoClass -> List String
 renderStyleRule options rule maybePseudo =
     case rule of
         Style selector props ->
-            renderStyle options maybePseudo selector props
+            renderStyle options maybePseudo ("." ++ selector) props
 
         Shadows name prop ->
             renderStyle options
