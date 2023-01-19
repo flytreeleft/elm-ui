@@ -1,9 +1,9 @@
 {
     "type": "package",
-    "name": "mdgriffith/elm-ui",
+    "name": "flytreeleft/elm-ui",
     "summary": "Layout and style that's easy to refactor, all without thinking about CSS.",
     "license": "BSD-3-Clause",
-    "version": "1.1.8",
+    "version": "1.0.0",
     "exposed-modules": [
         "Element",
         "Element.Input",
