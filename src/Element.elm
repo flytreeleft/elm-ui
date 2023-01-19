@@ -21,7 +21,7 @@ module Element exposing
     , Device, DeviceClass(..), Orientation(..), classifyDevice
     , modular
     , map, mapAttribute
-    , html, htmlAttribute
+    , html, htmlAttribute, htmlStyleAttribute
     )
 
 {-|
@@ -208,7 +208,7 @@ You'll also need to retrieve the initial window size. You can either use [`Brows
 
 ## Compatibility
 
-@docs html, htmlAttribute
+@docs html, htmlAttribute, htmlStyleAttribute
 
 -}
 
@@ -354,6 +354,18 @@ html =
 htmlAttribute : Html.Attribute msg -> Attribute msg
 htmlAttribute =
     Internal.Attr
+
+
+{-| -}
+htmlStyleAttribute : String -> List (String, String) -> Attribute msg
+htmlStyleAttribute className styles =
+    styles
+        |> List.map
+            (\(name, val) ->
+                Internal.Property name val
+            )
+        |> Internal.Style className
+        |> Internal.StyleClass (Flag.flag 125)
 
 
 {-| -}
