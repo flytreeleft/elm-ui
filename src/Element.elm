@@ -214,11 +214,13 @@ You'll also need to retrieve the initial window size. You can either use [`Brows
 
 import Html exposing (Html)
 import Html.Attributes
+import Html.Events
 import Internal.Flag as Flag exposing (Flag)
 import Internal.Model as Internal
 import Internal.Style exposing (classes)
 import Hex
 import Murmur3
+import Json.Decode exposing (Decoder)
 
 
 {-| -}
@@ -1131,8 +1133,15 @@ Leaving the description blank will cause the image to be ignored by assistive te
 So, take a moment to describe your image as you would to someone who has a harder time seeing.
 
 -}
-image : List (Attribute msg) -> { src : String, description : String } -> Element msg
-image attrs { src, description } =
+image :
+    List (Attribute msg)
+    ->
+        { src : String
+        , description : String
+        , onLoad : Maybe (Decoder msg)
+        }
+    -> Element msg
+image attrs { src, description, onLoad } =
     let
         imageAttributes =
             attrs
@@ -1163,6 +1172,13 @@ image attrs { src, description } =
                  , Internal.Attr <| Html.Attributes.alt description
                  ]
                     ++ imageAttributes
+                    ++ (onLoad
+                            |> Maybe.map
+                                    (\load ->
+                                        [ Internal.Attr <| Html.Events.on "load" load ]
+                                    )
+                            |> Maybe.withDefault []
+                       )
                 )
                 (Internal.Unkeyed [])
             ]
