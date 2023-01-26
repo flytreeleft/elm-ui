@@ -154,67 +154,53 @@ cubic a b c d =
 joinOpitons : List Option -> String
 joinOpitons options =
     -- duration | easing function | delay
-    let
-        duration_ =
-            options
-                |> List.foldl
-                    (\opt _ ->
-                        case opt of
-                            Duration sec ->
-                                Just (String.fromFloat sec ++ "s")
-                            _ ->
-                                Nothing
-                    )
-                    Nothing
+    options
+        |> List.foldl
+            (\opt result ->
+                case opt of
+                    Duration sec ->
+                        ( String.fromFloat sec ++ "s" )
+                            :: result
 
-        delay_ =
-            options
-                |> List.foldl
-                    (\opt _ ->
-                        case opt of
-                            Delay sec ->
-                                Just (String.fromFloat sec ++ "s")
-                            _ ->
-                                Nothing
-                    )
-                    Nothing
+                    Delay sec ->
+                        result ++ [ String.fromFloat sec ++ "s" ]
 
-        easing_ =
-            options
-                |> List.foldl
-                    (\opt _ ->
-                        case opt of
-                            EasingFunction fn ->
+                    EasingFunction fn ->
+                        let
+                            val =
                                 case fn of
                                     Cubic a b c d ->
-                                        Just
-                                            ( "cubic-bezier("
-                                                ++ ( [ a, b, c, d ]
-                                                        |> List.map String.fromFloat
-                                                        |> String.join ","
-                                                    )
-                                                ++ ")"
-                                            )
+                                        "cubic-bezier("
+                                            ++ ( [ a, b, c, d ]
+                                                    |> List.map String.fromFloat
+                                                    |> String.join ","
+                                                )
+                                            ++ ")"
 
                                     Linear ->
-                                        Just "linear"
+                                        "linear"
 
                                     Ease ->
-                                        Just "ease"
+                                        "ease"
 
                                     EaseIn ->
-                                        Just "ease-in"
+                                        "ease-in"
 
                                     EaseOut ->
-                                        Just "ease-out"
+                                        "ease-out"
 
                                     EaseInOut ->
-                                        Just "ease-in-out"
+                                        "ease-in-out"
+                        in
+                        case result of
+                            first :: last ->
+                                first :: val :: last
                             _ ->
-                                Nothing
-                    )
-                    Nothing
-    in
-    [ duration_, easing_, delay_ ]
-        |> List.filterMap identity
+                                result ++ [ val ]
+
+                    _ ->
+                        result
+
+            )
+            []
         |> String.join " "
