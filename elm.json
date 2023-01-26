@@ -3,7 +3,7 @@
     "name": "flytreeleft/elm-ui",
     "summary": "Layout and style that's easy to refactor, all without thinking about CSS.",
     "license": "BSD-3-Clause",
-    "version": "3.2.0",
+    "version": "3.3.0",
     "exposed-modules": [
         "Element",
         "Element.Input",
@@ -13,7 +13,8 @@
         "Element.Font",
         "Element.Lazy",
         "Element.Keyed",
-        "Element.Region"
+        "Element.Region",
+        "Element.Transition"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
