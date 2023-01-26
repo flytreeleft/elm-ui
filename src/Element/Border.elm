@@ -3,7 +3,7 @@ module Element.Border exposing
     , width, widthXY, widthEach
     , solid, dashed, dotted
     , rounded, roundEach
-    , glow, innerGlow, shadow, innerShadow
+    , glow, innerGlow, shadows, shadow, innerShadow
     )
 
 {-|
@@ -28,7 +28,7 @@ module Element.Border exposing
 
 ## Shadows
 
-@docs glow, innerGlow, shadow, innerShadow
+@docs glow, innerGlow, shadows, shadow, innerShadow
 
 -}
 
@@ -36,6 +36,8 @@ import Element exposing (Attr, Attribute, Color)
 import Internal.Flag as Flag
 import Internal.Model as Internal
 import Internal.Style as Style exposing (classes)
+import Hex
+import Murmur3
 
 
 {-| -}
@@ -211,6 +213,43 @@ innerGlow clr size =
         , color = clr
         }
 
+
+{-| -}
+shadows :
+    List
+        { inset : Bool
+        , offset : ( Float, Float )
+        , size : Float
+        , blur : Float
+        , color : Color
+        }
+    -> Attr decorative msg
+shadows almostShades =
+    let
+        shadow_ =
+            almostShades
+                |> List.map
+                    (\almostShade ->
+                        Internal.formatBoxShadow
+                            { inset = almostShade.inset
+                            , offset = almostShade.offset
+                            , size = almostShade.size
+                            , blur = almostShade.blur
+                            , color = almostShade.color
+                            }
+                    )
+                |> String.join ", "
+        className =
+            shadow_
+                |> Murmur3.hashString 20030126
+                |> Hex.toString
+                |> (++) "box-"
+    in
+    Internal.StyleClass Flag.shadows <|
+        Internal.Single
+            className
+            "box-shadow"
+            shadow_
 
 {-| -}
 shadow :

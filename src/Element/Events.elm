@@ -7,6 +7,7 @@ module Element.Events exposing
     -- , onMouseCoords
     -- , onMousePageCoords
     -- , onMouseScreenCoords
+    , on
     )
 
 {-|
@@ -20,6 +21,10 @@ module Element.Events exposing
 ## Focus Events
 
 @docs onFocus, onLoseFocus
+
+## Custom
+
+@docs on
 
 -}
 

@@ -22,6 +22,7 @@ module Element exposing
     , modular
     , map, mapAttribute
     , html, htmlAttribute, htmlStyleAttribute
+    , cursor, noneUserSelect, nonePointerEvents, allPointerEvents
     )
 
 {-|
@@ -208,7 +209,7 @@ You'll also need to retrieve the initial window size. You can either use [`Brows
 
 ## Compatibility
 
-@docs html, htmlAttribute, htmlStyleAttribute
+@docs html, htmlAttribute, htmlStyleAttribute, cursor, noneUserSelect, nonePointerEvents, allPointerEvents
 
 -}
 
@@ -387,6 +388,50 @@ htmlStyleAttribute styles =
             )
         |> Internal.Style className
         |> Internal.StyleClass (Flag.flag 0)
+
+
+{-| -}
+cursor : String -> Attribute msg
+cursor c =
+    Internal.StyleClass
+        Flag.cursor
+        (Internal.Style ("cur-" ++ c)
+            [ Internal.Property "cursor" c
+            ]
+        )
+
+
+{-| -}
+noneUserSelect : Attribute msg
+noneUserSelect =
+    Internal.StyleClass
+        Flag.cursor
+        (Internal.Style "usr-slt-none"
+            [ Internal.Property "user-select" "none"
+            ]
+        )
+
+
+{-| -}
+nonePointerEvents : Attribute msg
+nonePointerEvents =
+    Internal.StyleClass
+        Flag.cursor
+        (Internal.Style "pnt-evt-none"
+            [ Internal.Property "pointer-events" "none"
+            ]
+        )
+
+
+{-| -}
+allPointerEvents : Attribute msg
+allPointerEvents =
+    Internal.StyleClass
+        Flag.cursor
+        (Internal.Style "pnt-evt-all"
+            [ Internal.Property "pointer-events" "all"
+            ]
+        )
 
 
 {-| -}
@@ -968,43 +1013,43 @@ tableHelper attrs config =
                 ]
                 (Internal.Unkeyed [ elem ])
 
-        add cell columnConfig cursor =
+        add cell columnConfig cursor_ =
             case columnConfig of
                 InternalIndexedColumn col ->
-                    { cursor
+                    { cursor_
                         | elements =
-                            onGrid cursor.row
-                                cursor.column
+                            onGrid cursor_.row
+                                cursor_.column
                                 (col.view
                                     (if maybeHeaders == Nothing then
-                                        cursor.row - 1
+                                        cursor_.row - 1
 
                                      else
-                                        cursor.row - 2
+                                        cursor_.row - 2
                                     )
                                     cell
                                 )
-                                :: cursor.elements
-                        , column = cursor.column + 1
+                                :: cursor_.elements
+                        , column = cursor_.column + 1
                     }
 
                 InternalColumn col ->
                     { elements =
-                        onGrid cursor.row cursor.column (col.view cell)
-                            :: cursor.elements
-                    , column = cursor.column + 1
-                    , row = cursor.row
+                        onGrid cursor_.row cursor_.column (col.view cell)
+                            :: cursor_.elements
+                    , column = cursor_.column + 1
+                    , row = cursor_.row
                     }
 
-        build columns rowData cursor =
+        build columns rowData cursor_ =
             let
                 newCursor =
                     List.foldl (add rowData)
-                        cursor
+                        cursor_
                         columns
             in
             { elements = newCursor.elements
-            , row = cursor.row + 1
+            , row = cursor_.row + 1
             , column = 1
             }
 
