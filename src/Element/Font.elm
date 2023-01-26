@@ -4,7 +4,7 @@ module Element.Font exposing
     , external
     , alignLeft, alignRight, center, justify, letterSpacing, wordSpacing
     , underline, strike, italic, unitalicized
-    , heavy, extraBold, bold, semiBold, medium, regular, light, extraLight, hairline
+    , heavy, extraBold, bold, semiBold, medium, regular, light, extraLight, hairline, weight
     , Variant, variant, variantList, smallCaps, slashedZero, ligatures, ordinal, tabularNumbers, stackedFractions, diagonalFractions, swash, feature, indexed
     , glow, shadow
     )
@@ -51,7 +51,7 @@ module Element.Font exposing
 
 ## Font Weight
 
-@docs heavy, extraBold, bold, semiBold, medium, regular, light, extraLight, hairline
+@docs heavy, extraBold, bold, semiBold, medium, regular, light, extraLight, hairline, weight
 
 
 ## Variants
@@ -328,6 +328,17 @@ extraBold =
 heavy : Attribute msg
 heavy =
     Internal.Class Flag.fontWeight classes.textHeavy
+
+
+{-| -}
+weight : Int -> Attribute msg
+weight w =
+    let
+        val =
+            String.fromInt w
+    in
+    Internal.StyleClass Flag.fontWeight <|
+        Internal.Single ("fw-" ++ val) "font-weight" val
 
 
 {-| This will reset bold and italic.
