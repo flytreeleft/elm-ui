@@ -238,6 +238,7 @@ shadows almostShades =
                             , color = almostShade.color
                             }
                     )
+                |> List.sort
                 |> String.join ", "
         className =
             shadow_
