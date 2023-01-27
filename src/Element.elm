@@ -22,6 +22,7 @@ module Element exposing
     , modular
     , map, mapAttribute
     , html, htmlAttribute, htmlStyleAttribute
+    , id
     , cursor, noneUserSelect, nonePointerEvents, allPointerEvents
     )
 
@@ -209,7 +210,7 @@ You'll also need to retrieve the initial window size. You can either use [`Brows
 
 ## Compatibility
 
-@docs html, htmlAttribute, htmlStyleAttribute, cursor, noneUserSelect, nonePointerEvents, allPointerEvents
+@docs html, htmlAttribute, htmlStyleAttribute, id, cursor, noneUserSelect, nonePointerEvents, allPointerEvents
 
 -}
 
@@ -353,6 +354,12 @@ type alias Decoration =
 html : Html msg -> Element msg
 html =
     Internal.unstyled
+
+
+{-| -}
+id : String -> Attribute msg
+id val =
+    htmlAttribute (Html.Attributes.id val)
 
 
 {-| -}
