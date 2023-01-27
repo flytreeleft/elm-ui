@@ -721,7 +721,7 @@ input[type="search"]::-webkit-search-results-decoration {
 sliderReset =
     """
 input[type=range] {
-  -webkit-appearance: none; 
+  -webkit-appearance: none;
   background: transparent;
   position:absolute;
   left:0;
@@ -1253,6 +1253,7 @@ baseSheet =
             , Prop "flex-direction" "row"
             , Child (dot classes.any)
                 [ Prop "flex-basis" "0%"
+                , Prop "min-width" "min-content"
                 , Descriptor (dot classes.widthExact)
                     [ Prop "flex-basis" "auto"
                     ]
