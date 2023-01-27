@@ -2,7 +2,7 @@ module Element.Input exposing
     ( focusedOnLoad
     , button
     , checkbox, defaultCheckbox
-    , text, multiline
+    , Selection, selectionDecoder, text, multiline
     , Placeholder, placeholder
     , username, newPassword, currentPassword, email, search, spellChecked
     , slider, Thumb, thumb, defaultThumb
@@ -64,7 +64,7 @@ This is also the first input element that has a [`required label`](#Label).
 
 # Text
 
-@docs text, multiline
+@docs Selection, selectionDecoder, text, multiline
 
 @docs Placeholder, placeholder
 
@@ -197,11 +197,30 @@ import Internal.Flag as Flag
 import Internal.Model as Internal
 import Internal.Style exposing (classes)
 import Json.Decode as Json
+import Json.Encode as Encode
 
 
 {-| -}
 type Placeholder msg
     = Placeholder (List (Attribute msg)) (Element msg)
+
+
+{-| -}
+type alias Selection =
+    { start : Int
+    , end : Int
+    , direction : String
+    }
+
+
+{-| -}
+selectionDecoder : Json.Decoder Selection
+selectionDecoder =
+    Json.map3 Selection
+        (Json.field "selectionStart" Json.int)
+        (Json.field "selectionEnd" Json.int)
+        (Json.field "selectionDirection" Json.string)
+        |> Json.field "target"
 
 
 white =
@@ -852,6 +871,7 @@ type alias Text msg =
     , text : String
     , placeholder : Maybe (Placeholder msg)
     , label : Label msg
+    , selection : Maybe Selection
     }
 
 
@@ -957,6 +977,9 @@ textHelper textInput attrs textOptions =
                             |> Maybe.withDefault Internal.NoAttribute
                        ]
                     ++ redistributed.input
+                    ++ (Maybe.map selection textOptions.selection
+                            |> Maybe.withDefault []
+                       )
                 )
                 (Internal.Unkeyed [])
 
@@ -1410,6 +1433,7 @@ text :
         , text : String
         , placeholder : Maybe (Placeholder msg)
         , label : Label msg
+        , selection : Maybe Selection
         }
     -> Element msg
 text =
@@ -1429,6 +1453,7 @@ spellChecked :
         , text : String
         , placeholder : Maybe (Placeholder msg)
         , label : Label msg
+        , selection : Maybe Selection
         }
     -> Element msg
 spellChecked =
@@ -1447,6 +1472,7 @@ search :
         , text : String
         , placeholder : Maybe (Placeholder msg)
         , label : Label msg
+        , selection : Maybe Selection
         }
     -> Element msg
 search =
@@ -1491,6 +1517,7 @@ newPassword attrs pass =
         , text = pass.text
         , placeholder = pass.placeholder
         , label = pass.label
+        , selection = Nothing
         }
 
 
@@ -1522,6 +1549,7 @@ currentPassword attrs pass =
         , text = pass.text
         , placeholder = pass.placeholder
         , label = pass.label
+        , selection = Nothing
         }
 
 
@@ -1533,6 +1561,7 @@ username :
         , text : String
         , placeholder : Maybe (Placeholder msg)
         , label : Label msg
+        , selection : Maybe Selection
         }
     -> Element msg
 username =
@@ -1551,6 +1580,7 @@ email :
         , text : String
         , placeholder : Maybe (Placeholder msg)
         , label : Label msg
+        , selection : Maybe Selection
         }
     -> Element msg
 email =
@@ -1576,6 +1606,7 @@ multiline :
         , placeholder : Maybe (Placeholder msg)
         , label : Label msg
         , spellcheck : Bool
+        , selection : Maybe Selection
         }
     -> Element msg
 multiline attrs multi =
@@ -1590,6 +1621,7 @@ multiline attrs multi =
         , text = multi.text
         , placeholder = multi.placeholder
         , label = multi.label
+        , selection = multi.selection
         }
 
 
@@ -2162,6 +2194,23 @@ readonly =
 autofill : String -> Attribute msg
 autofill =
     Internal.Attr << Html.Attributes.attribute "autocomplete"
+
+
+selection : Selection -> List (Attribute msg)
+selection sel =
+    [ Internal.Attr
+        <| Html.Attributes.property
+            "selectionStart"
+            (Encode.int sel.start)
+    , Internal.Attr
+        <| Html.Attributes.property
+            "selectionEnd"
+            (Encode.int sel.end)
+    , Internal.Attr
+        <| Html.Attributes.property
+            "selectionDirection"
+            (Encode.string sel.direction)
+    ]
 
 
 {-| Attach this attribute to any `Input` that you would like to be automatically focused when the page loads.
