@@ -207,7 +207,7 @@ size i =
 
 {-| In `px`.
 -}
-letterSpacing : Float -> Attribute msg
+letterSpacing : Float -> Attr decorative msg
 letterSpacing offset =
     Internal.StyleClass Flag.letterSpacing <|
         Internal.Single
@@ -218,7 +218,7 @@ letterSpacing offset =
 
 {-| In `px`.
 -}
-wordSpacing : Float -> Attribute msg
+wordSpacing : Float ->Attr decorative msg
 wordSpacing offset =
     Internal.StyleClass Flag.wordSpacing <|
         Internal.Single ("ws-" ++ Internal.floatClass offset) "word-spacing" (String.fromFloat offset ++ "px")
@@ -226,27 +226,27 @@ wordSpacing offset =
 
 {-| Align the font to the left.
 -}
-alignLeft : Attribute msg
+alignLeft : Attr decorative msg
 alignLeft =
     Internal.Class Flag.fontAlignment classes.textLeft
 
 
 {-| Align the font to the right.
 -}
-alignRight : Attribute msg
+alignRight : Attr decorative msg
 alignRight =
     Internal.Class Flag.fontAlignment classes.textRight
 
 
 {-| Center align the font.
 -}
-center : Attribute msg
+center : Attr decorative msg
 center =
     Internal.Class Flag.fontAlignment classes.textCenter
 
 
 {-| -}
-justify : Attribute msg
+justify : Attr decorative msg
 justify =
     Internal.Class Flag.fontAlignment classes.textJustify
 
@@ -259,79 +259,79 @@ justify =
 
 
 {-| -}
-underline : Attribute msg
+underline : Attr decorative msg
 underline =
     Internal.htmlClass classes.underline
 
 
 {-| -}
-strike : Attribute msg
+strike : Attr decorative msg
 strike =
     Internal.htmlClass classes.strike
 
 
 {-| -}
-italic : Attribute msg
+italic : Attr decorative msg
 italic =
     Internal.htmlClass classes.italic
 
 
 {-| -}
-bold : Attribute msg
+bold : Attr decorative msg
 bold =
     Internal.Class Flag.fontWeight classes.bold
 
 
 {-| -}
-light : Attribute msg
+light : Attr decorative msg
 light =
     Internal.Class Flag.fontWeight classes.textLight
 
 
 {-| -}
-hairline : Attribute msg
+hairline : Attr decorative msg
 hairline =
     Internal.Class Flag.fontWeight classes.textThin
 
 
 {-| -}
-extraLight : Attribute msg
+extraLight : Attr decorative msg
 extraLight =
     Internal.Class Flag.fontWeight classes.textExtraLight
 
 
 {-| -}
-regular : Attribute msg
+regular : Attr decorative msg
 regular =
     Internal.Class Flag.fontWeight classes.textNormalWeight
 
 
 {-| -}
-semiBold : Attribute msg
+semiBold : Attr decorative msg
 semiBold =
     Internal.Class Flag.fontWeight classes.textSemiBold
 
 
 {-| -}
-medium : Attribute msg
+medium : Attr decorative msg
 medium =
     Internal.Class Flag.fontWeight classes.textMedium
 
 
 {-| -}
-extraBold : Attribute msg
+extraBold : Attr decorative msg
 extraBold =
     Internal.Class Flag.fontWeight classes.textExtraBold
 
 
 {-| -}
-heavy : Attribute msg
+heavy : Attr decorative msg
 heavy =
     Internal.Class Flag.fontWeight classes.textHeavy
 
 
 {-| -}
-weight : Int -> Attribute msg
+weight : Int -> Attr decorative msg
 weight w =
     let
         val =
@@ -343,7 +343,7 @@ weight w =
 
 {-| This will reset bold and italic.
 -}
-unitalicized : Attribute msg
+unitalicized : Attr decorative msg
 unitalicized =
     Internal.htmlClass classes.textUnitalicized
 
@@ -394,7 +394,7 @@ type alias Variant =
 **Note** These will **not** stack. If you want multiple variants, you should use `Font.variantList`.
 
 -}
-variant : Variant -> Attribute msg
+variant : Variant -> Attr decorative msg
 variant var =
     case var of
         Internal.VariantActive name ->
@@ -420,7 +420,7 @@ isSmallCaps x =
 
 
 {-| -}
-variantList : List Variant -> Attribute msg
+variantList : List Variant -> Attr decorative msg
 variantList vars =
     let
         features =

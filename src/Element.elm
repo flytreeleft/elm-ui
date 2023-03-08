@@ -363,13 +363,13 @@ id val =
 
 
 {-| -}
-htmlAttribute : Html.Attribute msg -> Attribute msg
+htmlAttribute : Html.Attribute msg -> Attr decorative msg
 htmlAttribute =
     Internal.Attr
 
 
 {-| -}
-htmlStyleAttribute : List (String, String) -> Attribute msg
+htmlStyleAttribute : List (String, String) -> Attr decorative msg
 htmlStyleAttribute styles =
     let
         sortedStyles =
@@ -1376,7 +1376,7 @@ downloadAs attrs { url, filename, label } =
 {- NEARBYS -}
 
 
-createNearby : Internal.Location -> Element msg -> Attribute msg
+createNearby : Internal.Location -> Element msg -> Attr decorative msg
 createNearby loc element =
     case element of
         Internal.Empty ->
@@ -1387,25 +1387,25 @@ createNearby loc element =
 
 
 {-| -}
-below : Element msg -> Attribute msg
+below : Element msg -> Attr decorative msg
 below element =
     createNearby Internal.Below element
 
 
 {-| -}
-above : Element msg -> Attribute msg
+above : Element msg -> Attr decorative msg
 above element =
     createNearby Internal.Above element
 
 
 {-| -}
-onRight : Element msg -> Attribute msg
+onRight : Element msg -> Attr decorative msg
 onRight element =
     createNearby Internal.OnRight element
 
 
 {-| -}
-onLeft : Element msg -> Attribute msg
+onLeft : Element msg -> Attr decorative msg
 onLeft element =
     createNearby Internal.OnLeft element
 
@@ -1415,26 +1415,26 @@ onLeft element =
 **Note:** If you use this on a `layout` element, it will place the element as fixed to the viewport which can be useful for modals and overlays.
 
 -}
-inFront : Element msg -> Attribute msg
+inFront : Element msg -> Attr decorative msg
 inFront element =
     createNearby Internal.InFront element
 
 
 {-| This will place an element between the background and the content of an element.
 -}
-behindContent : Element msg -> Attribute msg
+behindContent : Element msg -> Attr decorative msg
 behindContent element =
     createNearby Internal.Behind element
 
 
 {-| -}
-width : Length -> Attribute msg
+width : Length -> Attr decorative msg
 width =
     Internal.Width
 
 
 {-| -}
-height : Length -> Attribute msg
+height : Length -> Attr decorative msg
 height =
     Internal.Height
 
@@ -1477,7 +1477,7 @@ moveLeft x =
 
 
 {-| -}
-padding : Int -> Attribute msg
+padding : Int -> Attr decorative msg
 padding x =
     let
         f =
@@ -1488,7 +1488,7 @@ padding x =
 
 {-| Set horizontal and vertical padding.
 -}
-paddingXY : Int -> Int -> Attribute msg
+paddingXY : Int -> Int -> Attr decorative msg
 paddingXY x y =
     if x == y then
         let
@@ -1529,7 +1529,7 @@ And then just do
     paddingEach { edges | right = 5 }
 
 -}
-paddingEach : { top : Int, right : Int, bottom : Int, left : Int } -> Attribute msg
+paddingEach : { top : Int, right : Int, bottom : Int, left : Int } -> Attr decorative msg
 paddingEach { top, right, bottom, left } =
     if top == right && top == bottom && top == left then
         let
@@ -1556,49 +1556,49 @@ paddingEach { top, right, bottom, left } =
 
 
 {-| -}
-centerX : Attribute msg
+centerX : Attr decorative msg
 centerX =
     Internal.AlignX Internal.CenterX
 
 
 {-| -}
-centerY : Attribute msg
+centerY : Attr decorative msg
 centerY =
     Internal.AlignY Internal.CenterY
 
 
 {-| -}
-alignTop : Attribute msg
+alignTop : Attr decorative msg
 alignTop =
     Internal.AlignY Internal.Top
 
 
 {-| -}
-alignBottom : Attribute msg
+alignBottom : Attr decorative msg
 alignBottom =
     Internal.AlignY Internal.Bottom
 
 
 {-| -}
-alignLeft : Attribute msg
+alignLeft : Attr decorative msg
 alignLeft =
     Internal.AlignX Internal.Left
 
 
 {-| -}
-alignRight : Attribute msg
+alignRight : Attr decorative msg
 alignRight =
     Internal.AlignX Internal.Right
 
 
 {-| -}
-spaceEvenly : Attribute msg
+spaceEvenly : Attr decorative msg
 spaceEvenly =
     Internal.Class Flag.spacing Internal.Style.classes.spaceEvenly
 
 
 {-| -}
-spacing : Int -> Attribute msg
+spacing : Int -> Attr decorative msg
 spacing x =
     Internal.StyleClass Flag.spacing (Internal.SpacingStyle (Internal.spacingName x x) x x)
 
@@ -1608,7 +1608,7 @@ spacing x =
 However for some layouts, like `textColumn`, you may want to set a different spacing for the x axis compared to the y axis.
 
 -}
-spacingXY : Int -> Int -> Attribute msg
+spacingXY : Int -> Int -> Attr decorative msg
 spacingXY x y =
     Internal.StyleClass Flag.spacing (Internal.SpacingStyle (Internal.spacingName x y) x y)
 

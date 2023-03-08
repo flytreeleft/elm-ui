@@ -30,35 +30,35 @@ color clr =
 
 {-| Resize the image to fit the containing element while maintaining proportions and cropping the overflow.
 -}
-image : String -> Attribute msg
+image : String -> Attr decorative msg
 image src =
     Internal.Attr (VirtualDom.style "background" ("url(\"" ++ src ++ "\") center / cover no-repeat"))
 
 
 {-| A centered background image that keeps its natural proportions, but scales to fit the space.
 -}
-uncropped : String -> Attribute msg
+uncropped : String -> Attr decorative msg
 uncropped src =
     Internal.Attr (VirtualDom.style "background" ("url(\"" ++ src ++ "\") center / contain no-repeat"))
 
 
 {-| Tile an image in the x and y axes.
 -}
-tiled : String -> Attribute msg
+tiled : String -> Attr decorative msg
 tiled src =
     Internal.Attr (VirtualDom.style "background" ("url(\"" ++ src ++ "\") repeat"))
 
 
 {-| Tile an image in the x axis.
 -}
-tiledX : String -> Attribute msg
+tiledX : String -> Attr decorative msg
 tiledX src =
     Internal.Attr (VirtualDom.style "background" ("url(\"" ++ src ++ "\") repeat-x"))
 
 
 {-| Tile an image in the y axis.
 -}
-tiledY : String -> Attribute msg
+tiledY : String -> Attr decorative msg
 tiledY src =
     Internal.Attr (VirtualDom.style "background" ("url(\"" ++ src ++ "\") repeat-y"))
 

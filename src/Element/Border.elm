@@ -53,7 +53,7 @@ color clr =
 
 
 {-| -}
-width : Int -> Attribute msg
+width : Int -> Attr decorative msg
 width v =
     Internal.StyleClass
         Flag.borderWidth
@@ -68,7 +68,7 @@ width v =
 
 {-| Set horizontal and vertical borders.
 -}
-widthXY : Int -> Int -> Attribute msg
+widthXY : Int -> Int -> Attr decorative msg
 widthXY x y =
     Internal.StyleClass
         Flag.borderWidth
@@ -92,7 +92,7 @@ widthEach :
     , right : Int
     , top : Int
     }
-    -> Attribute msg
+    -> Attr decorative msg
 widthEach { bottom, top, left, right } =
     if top == bottom && left == right then
         if top == right then
@@ -129,26 +129,26 @@ widthEach { bottom, top, left, right } =
 
 
 {-| -}
-solid : Attribute msg
+solid : Attr decorative msg
 solid =
     Internal.Class Flag.borderStyle classes.borderSolid
 
 
 {-| -}
-dashed : Attribute msg
+dashed : Attr decorative msg
 dashed =
     Internal.Class Flag.borderStyle classes.borderDashed
 
 
 {-| -}
-dotted : Attribute msg
+dotted : Attr decorative msg
 dotted =
     Internal.Class Flag.borderStyle classes.borderDotted
 
 
 {-| Round all corners.
 -}
-rounded : Int -> Attribute msg
+rounded : Int -> Attr decorative msg
 rounded radius =
     Internal.StyleClass
         Flag.borderRound
@@ -166,7 +166,7 @@ roundEach :
     , bottomLeft : Int
     , bottomRight : Int
     }
-    -> Attribute msg
+    -> Attr decorative msg
 roundEach { topLeft, topRight, bottomLeft, bottomRight } =
     Internal.StyleClass Flag.borderRound
         (Internal.Single
