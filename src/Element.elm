@@ -409,7 +409,7 @@ cursor c =
 
 
 {-| -}
-zIndex : Int -> Attribute msg
+zIndex : Int -> Attr decorative msg
 zIndex i =
     let
         v =
