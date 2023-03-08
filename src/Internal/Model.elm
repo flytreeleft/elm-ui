@@ -344,6 +344,7 @@ type Length
     | Fill Int
     | Min Int Length
     | Max Int Length
+    | Percent Int
 
 
 type Axis
@@ -1424,6 +1425,19 @@ renderWidth w =
             , style :: newStyle
             )
 
+        Percent p ->
+            let
+                val =
+                    String.fromInt p
+
+                name =
+                    "width-pct-" ++ val
+            in
+            ( Flag.none
+            , name
+            , [ Single name "width" (val ++ "%") ]
+            )
+
 
 renderHeight h =
     case h of
@@ -1506,6 +1520,19 @@ renderHeight h =
             ( Flag.add Flag.heightBetween newFlag
             , cls ++ " " ++ newAttrs
             , style :: newStyle
+            )
+
+        Percent p ->
+            let
+                val =
+                    String.fromInt p
+
+                name =
+                    "height-pct-" ++ val
+            in
+            ( Flag.none
+            , name
+            , [ Single name "height" (val ++ "%") ]
             )
 
 
@@ -2955,6 +2982,9 @@ renderStyleRule options rule maybePseudo =
                         Max m len ->
                             toGridLengthHelper minimum (Just m) len
 
+                        Percent p ->
+                            String.fromInt p ++ "%"
+
                 msColumns =
                     template.columns
                         |> List.map toGridLength
@@ -3098,6 +3128,9 @@ lengthClassName x =
 
         Max max len ->
             "max" ++ String.fromInt max ++ lengthClassName len
+
+        Percent p ->
+            "pct" ++ String.fromInt p
 
 
 formatDropShadow shadow =

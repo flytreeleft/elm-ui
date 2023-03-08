@@ -3,7 +3,7 @@ module Element exposing
     , row, wrappedRow, column
     , paragraph, textColumn
     , Column, table, IndexedColumn, indexedTable
-    , Attribute, width, height, Length, px, shrink, fill, fillPortion, maximum, minimum
+    , Attribute, width, height, Length, percent, px, shrink, fill, fillPortion, maximum, minimum
     , explain
     , padding, paddingXY, paddingEach
     , spacing, spacingXY, spaceEvenly
@@ -23,7 +23,7 @@ module Element exposing
     , map, mapAttribute
     , html, htmlAttribute, htmlStyleAttribute
     , id
-    , cursor, noneUserSelect, nonePointerEvents, allPointerEvents
+    , cursor, zIndex, noneUserSelect, nonePointerEvents, allPointerEvents
     )
 
 {-|
@@ -57,7 +57,7 @@ Text layout needs some specific considerations.
 
 # Size
 
-@docs Attribute, width, height, Length, px, shrink, fill, fillPortion, maximum, minimum
+@docs Attribute, width, height, Length, percent, px, shrink, fill, fillPortion, maximum, minimum
 
 
 # Debugging
@@ -210,7 +210,7 @@ You'll also need to retrieve the initial window size. You can either use [`Brows
 
 ## Compatibility
 
-@docs html, htmlAttribute, htmlStyleAttribute, id, cursor, noneUserSelect, nonePointerEvents, allPointerEvents
+@docs html, htmlAttribute, htmlStyleAttribute, id, cursor, zIndex, noneUserSelect, nonePointerEvents, allPointerEvents
 
 -}
 
@@ -409,6 +409,22 @@ cursor c =
 
 
 {-| -}
+zIndex : Int -> Attribute msg
+zIndex i =
+    let
+        v =
+            String.fromInt i
+    in
+
+    Internal.StyleClass
+        Flag.cursor
+        (Internal.Style ("z-index-" ++ v)
+            [ Internal.Property "z-index" v
+            ]
+        )
+
+
+{-| -}
 noneUserSelect : Attribute msg
 noneUserSelect =
     Internal.StyleClass
@@ -462,6 +478,12 @@ type alias Length =
 px : Int -> Length
 px =
     Internal.Px
+
+
+{-| -}
+percent : Int -> Length
+percent =
+    Internal.Percent
 
 
 {-| Shrink an element to fit its contents.

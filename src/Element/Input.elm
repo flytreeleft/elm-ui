@@ -1223,6 +1223,9 @@ isFill len =
         Internal.Max _ l ->
             isFill l
 
+        Internal.Percent p ->
+            p == 100
+
 
 isShrink len =
     case len of
@@ -1240,6 +1243,9 @@ isShrink len =
 
         Internal.Max _ l ->
             isShrink l
+
+        Internal.Percent _ ->
+            False
 
 
 isConstrained len =
@@ -1259,6 +1265,9 @@ isConstrained len =
         Internal.Max _ l ->
             True
 
+        Internal.Percent _ ->
+            True
+
 
 isPixel len =
     case len of
@@ -1276,6 +1285,9 @@ isPixel len =
 
         Internal.Max _ l ->
             isPixel l
+
+        Internal.Percent _ ->
+            False
 
 
 {-| isStacked means that the label is above or below
