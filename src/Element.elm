@@ -21,8 +21,8 @@ module Element exposing
     , Device, DeviceClass(..), Orientation(..), classifyDevice
     , modular
     , map, mapAttribute
-    , html, htmlAttribute, htmlStyleAttribute
-    , id
+    , html, htmlAttribute, htmlStyleAttribute, styles, class
+    , id, tabindex, draggable
     , cursor, zIndex, noneUserSelect, nonePointerEvents, allPointerEvents
     )
 
@@ -210,7 +210,7 @@ You'll also need to retrieve the initial window size. You can either use [`Brows
 
 ## Compatibility
 
-@docs html, htmlAttribute, htmlStyleAttribute, id, cursor, zIndex, noneUserSelect, nonePointerEvents, allPointerEvents
+@docs html, htmlAttribute, htmlStyleAttribute, styles, class, id, tabindex, draggable, cursor, zIndex, noneUserSelect, nonePointerEvents, allPointerEvents
 
 -}
 
@@ -370,10 +370,10 @@ htmlAttribute =
 
 {-| -}
 htmlStyleAttribute : List (String, String) -> Attr decorative msg
-htmlStyleAttribute styles =
+htmlStyleAttribute styles_ =
     let
         sortedStyles =
-            styles
+            styles_
                 |> List.sortBy Tuple.first
 
 
@@ -395,6 +395,31 @@ htmlStyleAttribute styles =
             )
         |> Internal.Style className
         |> Internal.StyleClass (Flag.flag 0)
+
+
+{-| Alias for #htmlStyleAttribute
+-}
+styles : List ( String, String ) -> Attr decorative msg
+styles =
+    htmlStyleAttribute
+
+
+{-| -}
+class : String -> Attr decorative msg
+class =
+    Internal.htmlClass
+
+
+{-| -}
+tabindex : Int -> Attribute msg
+tabindex val =
+    htmlAttribute (Html.Attributes.tabindex val)
+
+
+{-| -}
+draggable : String -> Attribute msg
+draggable val =
+    htmlAttribute (Html.Attributes.draggable val)
 
 
 {-| -}
