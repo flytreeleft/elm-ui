@@ -1,6 +1,6 @@
 module Element.Events exposing
     ( onClick, onDoubleClick, onMouseDown, onMouseUp, onMouseEnter, onMouseLeave, onMouseMove
-    , onFocus, onLoseFocus
+    , onFocus, onLoseFocus, onEnter
     -- , onClickCoords
     -- , onClickPageCoords
     -- , onClickScreenCoords
@@ -21,6 +21,11 @@ module Element.Events exposing
 ## Focus Events
 
 @docs onFocus, onLoseFocus
+
+
+## Key Events
+
+@docs onEnter
 
 ## Custom
 
@@ -177,6 +182,24 @@ onFocus : msg -> Attribute msg
 onFocus =
     Internal.Attr << Html.Events.onFocus
 
+
+-- KEY EVENTS
+
+
+{-| -}
+onEnter : msg -> Attribute msg
+onEnter msg =
+    on "keyup"
+        (Json.field "key" Json.string
+            |> Json.andThen
+                (\key ->
+                    if key == "Enter" then
+                        Json.succeed msg
+
+                    else
+                        Json.fail "Not the enter key"
+                )
+        )
 
 
 -- CUSTOM EVENTS
